@@ -16,12 +16,20 @@
  * Adds a random greeting to the page.
  */
 function addRandomGreeting() {
-  const greetings = "Bring your passion and whole self to work everyday!"
+  const greetings = [
+      "Bring your passion and whole self to work everyday!",
+      "The secret of getting ahead is getting started",
+      "Do one thing every day that scares you.",
+      "Great things are done by a series of small things brought together.",
+      "Work hard in silence, let your success be the noise.",
+      "The hard days are what make you stronger.",
+      "In the middle of every difficulty lies opportunity"
+  ]
 
   // Pick a random greeting.
-  //const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
 
   // Add it to the page.
   const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greetings;
+  greetingContainer.innerText = greeting;
 }
