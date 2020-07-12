@@ -50,8 +50,8 @@
     font-size: x-large;
 }
 
-.Profile_Link:link,
-.Profile_Link:visited {
+.ProfileLink:link,
+.ProfileLink:visited {
     color: black;
 }
 
