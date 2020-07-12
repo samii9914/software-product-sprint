@@ -21,7 +21,6 @@
 
 /**
  * shows random quotes on the page.
- * @params {void}
  * @return {void}
  */
 function showRandomQuotes() {
@@ -33,7 +32,7 @@ function showRandomQuotes() {
       "Work hard in silence, let your success be the noise.",
       "The hard days are what make you stronger.",
       "In the middle of every difficulty lies opportunity",
-  ]
+  ];
 
   // Pick a random quote.
   const quote = quotes[Math.floor(Math.random() * quotes.length)];
