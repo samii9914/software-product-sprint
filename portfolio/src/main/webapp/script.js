@@ -20,7 +20,7 @@
 
 
 /**
- * shows random quotes on the page.
+ * Shows random quotes on the page.
  * @return {void}
  */
 function showRandomQuotes() {
