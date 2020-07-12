@@ -1,6 +1,6 @@
 @keyframes changebg {
-    from {background-color: #6A17E8}
-    to {background-color: white}
+    from {background-color: #6A17E8;}
+    to {background-color: white;}
 }
 
 .Content {
@@ -41,7 +41,7 @@
 }
 
 .ButtonGreetings:hover {
-    background-color: white
+    background-color: white;
 }
 
 .Profiles {
@@ -52,10 +52,9 @@
 
 .Profile_Link:link,
 .Profile_Link:visited {
-    color: black
+    color: black;
 }
 
 .Headings {
     box-shadow: 5px 5px 5px 5px #D6D4D9;
 }
-

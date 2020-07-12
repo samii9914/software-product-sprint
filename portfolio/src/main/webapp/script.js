@@ -1,5 +1,5 @@
 /**
-  * This is the main javascript file for the portfolio page. Contains a addRandomGreeting method.
+  * This is the main javascript file for the portfolio page. Contains a showRandomQuotes method.
   *
   * Copyright 2019 Google LLC
   *
@@ -20,11 +20,12 @@
 
 
 /**
- * Adds a random greeting to the page.
+ * shows random quotes on the page.
+ * @params {void}
  * @return {void}
  */
-function addRandomGreeting() {
-  const greetings = [
+function showRandomQuotes() {
+  const quotes = [
       "Bring your passion and whole self to work everyday!",
       "The secret of getting ahead is getting started.",
       "Do one thing every day that scares you.",
@@ -34,10 +35,10 @@ function addRandomGreeting() {
       "In the middle of every difficulty lies opportunity",
   ]
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+  // Pick a random quote.
+  const quote = quotes[Math.floor(Math.random() * quotes.length)];
 
   // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+  const quotesContainer = document.getElementById('greeting-container');
+  quotesContainer.innerText = quote;
 }
