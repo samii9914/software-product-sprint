@@ -33,15 +33,17 @@
 
 .ButtonGreetings {
     background-color: #6A17E8;
-    color: black;
+    color: white;
     font-size: large;
     height: 50px;
     margin-left: 320px;
     width: 100px;
+    margin-top: 10px;
 }
 
 .ButtonGreetings:hover {
     background-color: white;
+    color: black;
 }
 
 .Profiles {

@@ -1,5 +1,5 @@
 /**
-  * This is the main javascript file for the portfolio page. Contains a showRandomQuotes method.
+  * This is the main javascript file for the portfolio page. Contains a showRandomQuotes method and displayName.
   *
   * Copyright 2019 Google LLC
   *
@@ -40,4 +40,30 @@ function showRandomQuotes() {
   // Add it to the page.
   const quotesContainer = document.getElementById('greeting-container');
   quotesContainer.innerText = quote;
+}
+
+/**
+ * Displays "Hello [yourname] on the page"
+ * @return {void}
+ */
+/*function displayName() {
+    const promiseText=fetch('/data');
+    promiseText.then((request)=>request.text().then((name)=>document.getElementById('greeting-container').innerText = name))
+}*/
+
+function showComments() {
+    fetch('/data').then(response => response.json()).then((comments) => {
+
+        const commentsListElement = document.getElementById('comments-container');
+        for(let i=0;i<comments.length;i++) {
+            commentsListElement.appendChild(
+                createListElement(comments[i]));
+        };
+    })
+}
+
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }
