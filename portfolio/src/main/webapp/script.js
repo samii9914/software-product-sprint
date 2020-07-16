@@ -1,5 +1,5 @@
 /**
-  * This is the main javascript file for the portfolio page. Contains a showRandomQuotes method and displayName.
+  * This is the main javascript file for the portfolio page. Contains a showRandomQuotes method, showComments, createListItem, hideComments methods.
   *
   * Copyright 2019 Google LLC
   *
@@ -41,17 +41,12 @@ function showRandomQuotes() {
   const quotesContainer = document.getElementById('greeting-container');
   quotesContainer.innerText = quote;
 }
-
 /**
- * Displays "Hello [yourname] on the page"
+ * Shows comments on the page.
  * @return {void}
  */
-/*function displayName() {
-    const promiseText=fetch('/data');
-    promiseText.then((request)=>request.text().then((name)=>document.getElementById('greeting-container').innerText = name))
-}*/
-
 function showComments() {
+    hideComments();
     fetch('/data').then(response => response.json()).then((comments) => {
 
         const commentsListElement = document.getElementById('comments-container');
@@ -61,9 +56,22 @@ function showComments() {
         };
     })
 }
-
+/**
+ * Creates a list of comments and displays it to main page.
+ * @params {string}
+ * @return {listitem}
+ */
 function createListElement(text) {
   const liElement = document.createElement('li');
   liElement.innerText = text;
   return liElement;
+}
+
+/**
+ * Hides comments from the main page
+ * @return {void}
+ */
+function hideComments() {
+    const list=document.getElementById('comments-container');
+    list.innerText="";
 }
