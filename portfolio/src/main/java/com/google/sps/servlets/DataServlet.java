@@ -13,6 +13,12 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,33 +32,39 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private List<String> values;
-
-  @Override
-  public void init() {
-    values = new ArrayList<>();
-    values.add("Amazing!");
-    values.add("Good work.");
-    values.add("Keep it up!");
-  }
-  
   @Override
   public void doPost(HttpServletRequest request,HttpServletResponse response) throws IOException {
       String comment = request.getParameter("text-input");
-      if(comment==null)
+      long timestamp = System.currentTimeMillis();
+      if(comment.equals(""))
       {
           response.setContentType("text/html;");
           response.getWriter().println("Please enter a valid comment");
           return;
       }
-      values.add(comment);
+      Entity entity = new Entity("Comment");
+      entity.setProperty("comment",comment);
+      entity.setProperty("timestamp",timestamp);
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      datastore.put(entity);
       response.sendRedirect("/index.html");
   }
 
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String json = convertToJsonUsingGson(values);
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+
+    List<String> comments = new ArrayList<>();
+    for (Entity entity : results.asIterable()) {
+      long id = entity.getKey().getId();
+      String comment = (String) entity.getProperty("comment");
+      long timestamp = (long) entity.getProperty("timestamp");
+      comments.add(comment);
+    }
+    String json = convertToJsonUsingGson(comments);
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
@@ -61,9 +73,9 @@ public class DataServlet extends HttpServlet {
    * Converts a List instance into a JSON string using the Gson library. Note: We first added
    * the Gson library dependency to pom.xml.
    */
-  private String convertToJsonUsingGson(List<String> values) {
+  private String convertToJsonUsingGson(List<String> comments) {
     Gson gson = new Gson();
-    String json = gson.toJson(values);
+    String json = gson.toJson(comments);
     return json;
   }
 }
