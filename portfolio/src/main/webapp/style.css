@@ -37,8 +37,8 @@
     font-size: large;
     height: 50px;
     margin-left: 320px;
-    width: 100px;
     margin-top: 10px;
+    width: 100px;
 }
 
 .ButtonGreetings:hover {
@@ -59,4 +59,30 @@
 
 .Headings {
     box-shadow: 5px 5px 5px 5px #D6D4D9;
+}
+
+.TextArea {
+    height: 80px;
+    margin: 10px 220px;
+    width: 300px;
+}
+
+.SubmitButton {
+    background-color: black;
+    color: white;
+    margin-left: 450px;
+}
+
+.Button {
+    background-color: #6A17E8;
+    color: white;
+    font-size: large;
+    height: 50px;
+    margin: 10px 10px;
+    width: 100px;
+}
+
+.Paragraph {
+    margin: 10px 150px;
+    font-weight: bold;
 }

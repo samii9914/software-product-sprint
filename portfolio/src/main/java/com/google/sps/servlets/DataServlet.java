@@ -35,6 +35,19 @@ public class DataServlet extends HttpServlet {
     values.add("Good work.");
     values.add("Keep it up!");
   }
+  
+  @Override
+  public void doPost(HttpServletRequest request,HttpServletResponse response) throws IOException {
+      String comment = request.getParameter("text-input");
+      if(comment==null)
+      {
+          response.setContentType("text/html;");
+          response.getWriter().println("Please enter a valid comment");
+          return;
+      }
+      values.add(comment);
+      response.sendRedirect("/index.html");
+  }
 
 
   @Override

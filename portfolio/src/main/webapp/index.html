@@ -80,7 +80,12 @@
         <a href="https://twitter.com/samiksha9914" class="ProfileLink"><b>TWITTER</b></a>
       </span>
     </div>
-    <button class="ButtonGreetings" onclick="showComments()">View Comments</button>
+    <form action="/data" method="POST">
+      <p class="Paragraph">Please give your feedback! It will help me to improve :)</p>
+      <textarea class="TextArea" name="text-input" placeholder="Enter comments here"></textarea>
+      <input class="SubmitButton" type="submit"/>
+    </form>
+    <button class="Button" onclick="showComments()">View Comments</button>
     <div id="comments-container"></div>
   </div>
 </body>
