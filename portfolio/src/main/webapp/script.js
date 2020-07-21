@@ -1,5 +1,6 @@
 /**
-  * This is the main javascript file for the portfolio page. Contains a showRandomQuotes method, showComments, createListItem, hideComments methods.
+  * This is the main javascript file for the portfolio page. 
+  * Contains a showRandomQuotes method, showComments, createListItem and hideComments methods.
   *
   * Copyright 2019 Google LLC
   *
@@ -58,8 +59,8 @@ function showComments() {
 }
 /**
  * Creates a list of comments and displays it to main page.
- * @params {string}
- * @return {listitem}
+ * @params {string} text
+ * @return {!Element}
  */
 function createListElement(text) {
   const liElement = document.createElement('li');

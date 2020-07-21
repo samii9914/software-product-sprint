@@ -13,6 +13,7 @@
 // limitations under the License.
 
 package com.google.sps.servlets;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -20,6 +21,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
+import java.util.stream.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
@@ -31,37 +33,38 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+  private static final String INVALID_COMMENT_RESPONSE_STRING = "Please enter a valid comment";
+  private static final String ENTITY_NAME = "Comment";
+  private static final String ENTITY_NAME_TIMESTAMP = "timestamp";
 
   @Override
   public void doPost(HttpServletRequest request,HttpServletResponse response) throws IOException {
-      String comment = request.getParameter("text-input");
+      String comment = request.getParameter(ENTITY_NAME);
       long timestamp = System.currentTimeMillis();
-      if(comment.equals(""))
-      {
+      if(comment.length()==0) {
           response.setContentType("text/html;");
-          response.getWriter().println("Please enter a valid comment");
+          response.getWriter().println(INVALID_COMMENT_RESPONSE_STRING);
           return;
       }
-      Entity entity = new Entity("Comment");
-      entity.setProperty("comment",comment);
-      entity.setProperty("timestamp",timestamp);
+      Entity entity = new Entity(ENTITY_NAME);
+      entity.setProperty(ENTITY_NAME,comment);
+      entity.setProperty(ENTITY_NAME_TIMESTAMP,timestamp);
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
       datastore.put(entity);
       response.sendRedirect("/index.html");
   }
 
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    Query query = new Query(ENTITY_NAME).addSort(ENTITY_NAME_TIMESTAMP, SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
     List<String> comments = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       long id = entity.getKey().getId();
-      String comment = (String) entity.getProperty("comment");
-      long timestamp = (long) entity.getProperty("timestamp");
+      String comment = (String) entity.getProperty(ENTITY_NAME);
+      long timestamp = (long) entity.getProperty(ENTITY_NAME_TIMESTAMP);
       comments.add(comment);
     }
     String json = convertToJsonUsingGson(comments);
@@ -72,6 +75,7 @@ public class DataServlet extends HttpServlet {
   /**
    * Converts a List instance into a JSON string using the Gson library. Note: We first added
    * the Gson library dependency to pom.xml.
+   * @params {List}
    */
   private String convertToJsonUsingGson(List<String> comments) {
     Gson gson = new Gson();
