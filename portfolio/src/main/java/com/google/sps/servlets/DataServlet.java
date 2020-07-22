@@ -14,6 +14,8 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -21,7 +23,6 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
-import java.util.stream.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
@@ -33,39 +34,70 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+ /** 
+  * This class represents CommentDescription.
+  */
+  public class UserComment {
+      private String emailId;
+      private String comment;
+      UserComment(String emailId,String comment) {
+          this.emailId = emailId;
+          this.comment = comment;
+      }
+  }
   private static final String INVALID_COMMENT_RESPONSE_STRING = "Please enter a valid comment";
   private static final String ENTITY_NAME = "Comment";
   private static final String ENTITY_NAME_TIMESTAMP = "timestamp";
+  private static final String ENTITY_NAME_EMAILID = "EmailId";
 
+  /**
+  * Handler for server side POST requests.
+  */
   @Override
   public void doPost(HttpServletRequest request,HttpServletResponse response) throws IOException {
-      String comment = request.getParameter(ENTITY_NAME);
-      long timestamp = System.currentTimeMillis();
-      if(comment.length()==0) {
-          response.setContentType("text/html;");
-          response.getWriter().println(INVALID_COMMENT_RESPONSE_STRING);
-          return;
-      }
-      Entity entity = new Entity(ENTITY_NAME);
-      entity.setProperty(ENTITY_NAME,comment);
-      entity.setProperty(ENTITY_NAME_TIMESTAMP,timestamp);
-      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-      datastore.put(entity);
+    UserService userService = UserServiceFactory.getUserService();
+
+    if(!userService.isUserLoggedIn()) {
       response.sendRedirect("/index.html");
+      return;
+    }
+
+    String comment = request.getParameter(ENTITY_NAME);
+    long timestamp = System.currentTimeMillis();
+    if(comment.length()==0) {
+      response.setContentType("text/html;");
+      response.getWriter().println(INVALID_COMMENT_RESPONSE_STRING);
+      return;
+    }
+
+    String emailId = userService.getCurrentUser().getEmail();
+    Entity entity = new Entity(ENTITY_NAME);
+    entity.setProperty(ENTITY_NAME,comment);
+    entity.setProperty(ENTITY_NAME_TIMESTAMP,timestamp);
+    entity.setProperty(ENTITY_NAME_EMAILID,emailId);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(entity);
+    response.sendRedirect("/index.html");
   }
 
+  /**
+  * Handler for server side GET requests.
+  */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
     Query query = new Query(ENTITY_NAME).addSort(ENTITY_NAME_TIMESTAMP, SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    List<String> comments = new ArrayList<>();
+    List<UserComment> comments = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       long id = entity.getKey().getId();
       String comment = (String) entity.getProperty(ENTITY_NAME);
       long timestamp = (long) entity.getProperty(ENTITY_NAME_TIMESTAMP);
-      comments.add(comment);
+      String email = (String) entity.getProperty(ENTITY_NAME_EMAILID);
+      UserComment userComment = new UserComment(email,comment);
+      comments.add(userComment);
     }
     String json = convertToJsonUsingGson(comments);
     response.setContentType("application/json;");
@@ -77,7 +109,7 @@ public class DataServlet extends HttpServlet {
    * the Gson library dependency to pom.xml.
    * @params {List}
    */
-  private String convertToJsonUsingGson(List<String> comments) {
+  private String convertToJsonUsingGson(List<UserComment> comments) {
     Gson gson = new Gson();
     String json = gson.toJson(comments);
     return json;

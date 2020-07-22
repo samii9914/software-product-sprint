@@ -1,6 +1,7 @@
 /**
   * This is the main javascript file for the portfolio page. 
-  * Contains a showRandomQuotes method, showComments, createListItem and hideComments methods.
+  * Contains a showRandomQuotes method, showComments, createListItem, hideComments and
+  * checkLoginInfo, enableForm and showLoginButton methods.
   *
   * Copyright 2019 Google LLC
   *
@@ -22,7 +23,6 @@
 
 /**
  * Shows random quotes on the page.
- * @return {void}
  */
 function showRandomQuotes() {
   const quotes = [
@@ -44,35 +44,75 @@ function showRandomQuotes() {
 }
 /**
  * Shows comments on the page.
- * @return {void}
  */
 function showComments() {
-    hideComments();
-    fetch('/data').then(response => response.json()).then((comments) => {
-
-        const commentsListElement = document.getElementById('comments-container');
-        for(let i=0;i<comments.length;i++) {
-            commentsListElement.appendChild(
-                createListElement(comments[i]));
-        };
-    })
+  hideComments();
+  fetch('/data').then(response => response.json()).then((comments) => {
+    const commentsListElement = document.getElementById('comments-container');
+    comments.forEach(comment => {
+      commentsListElement.appendChild(
+      createListElement(comment));
+    });
+  });
 }
 /**
  * Creates a list of comments and displays it to main page.
  * @params {string} text
  * @return {!Element}
  */
-function createListElement(text) {
+function createListElement(user) {
   const liElement = document.createElement('li');
-  liElement.innerText = text;
+  liElement.innerText = user.emailId+ " : "+ user.comment;
   return liElement;
 }
 
 /**
- * Hides comments from the main page
- * @return {void}
+ * Hides comments from the main page.
  */
 function hideComments() {
-    const list=document.getElementById('comments-container');
-    list.innerText="";
+  const list=document.getElementById('comments-container');
+  list.innerText="";
+}
+
+/**
+ * Checks whether the user is logged in or not.
+ */
+function checkLoginInfo() {
+  fetch('/login').then(response => response.json()).then(userLogin => {
+    const checkLoginInfo = document.getElementById('checklogininfo-container');
+    const form = document.getElementById('form-container');
+    const login = document.getElementById('login-container');
+    const logout = document.getElementById('logout-container');
+
+    if(userLogin.isLoggedIn) {
+      enableForm(userLogin,form,login,logout);
+      checkLoginInfo.hidden = true;
+    }
+    else {
+      showLoginButton(userLogin,form,login,logout);
+      checkLoginInfo.hidden = true;
+    }
+  });
+}
+
+/**
+ * Enables form on the main page.
+ * @params {object, const, const, const} 
+ */
+function enableForm(userLogin,form,login,logout) {
+  form.hidden = false;
+  login.hidden = true;
+  logout.hidden = false;
+  logout.href = userLogin.Url;
+}
+
+/**
+ * Shows login link on the main page.
+ * @params {object, const, const, const} 
+ */
+function showLoginButton(userLogin,form,login,logout) {
+  login.hidden = false;
+  login.href = userLogin.Url;
+  form.hidden = true;
+  logout.hidden = true;
 }
