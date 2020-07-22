@@ -1,16 +1,20 @@
-// Copyright 2019 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     https://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+/**
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author: samii9914
+ */
 
 package com.google.sps.servlets;
 
@@ -31,30 +35,42 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** 
+ * Handles comments data.
+ */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
  /** 
-  * This class represents CommentDescription.
+  * Represents comment description.
   */
-  public class UserComment {
-      private String emailId;
-      private String comment;
-      UserComment(String emailId,String comment) {
-          this.emailId = emailId;
-          this.comment = comment;
-      }
+  private static class UserComment {
+    private final String emailId;
+    private final String comment;
+
+    UserComment(String emailId, String comment) {
+      this.emailId = emailId;
+      this.comment = comment;
+    }
+
+    public String getEmail() {
+      return this.emailId;
+    }
+
+    public String getComment() {
+      return this.comment;
+    }
   }
+
   private static final String INVALID_COMMENT_RESPONSE_STRING = "Please enter a valid comment";
   private static final String ENTITY_NAME = "Comment";
   private static final String ENTITY_NAME_TIMESTAMP = "timestamp";
   private static final String ENTITY_NAME_EMAILID = "EmailId";
 
-  /**
-  * Handler for server side POST requests.
+ /**
+  * Handles server side POST requests.
   */
   @Override
-  public void doPost(HttpServletRequest request,HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
 
     if(!userService.isUserLoggedIn()) {
@@ -64,7 +80,7 @@ public class DataServlet extends HttpServlet {
 
     String comment = request.getParameter(ENTITY_NAME);
     long timestamp = System.currentTimeMillis();
-    if(comment.length()==0) {
+    if(comment.empty()) {
       response.setContentType("text/html;");
       response.getWriter().println(INVALID_COMMENT_RESPONSE_STRING);
       return;
@@ -72,16 +88,16 @@ public class DataServlet extends HttpServlet {
 
     String emailId = userService.getCurrentUser().getEmail();
     Entity entity = new Entity(ENTITY_NAME);
-    entity.setProperty(ENTITY_NAME,comment);
-    entity.setProperty(ENTITY_NAME_TIMESTAMP,timestamp);
-    entity.setProperty(ENTITY_NAME_EMAILID,emailId);
+    entity.setProperty(ENTITY_NAME, comment);
+    entity.setProperty(ENTITY_NAME_TIMESTAMP, timestamp);
+    entity.setProperty(ENTITY_NAME_EMAILID, emailId);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(entity);
     response.sendRedirect("/index.html");
   }
 
-  /**
-  * Handler for server side GET requests.
+ /**
+  * Handles server side GET requests.
   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -96,18 +112,18 @@ public class DataServlet extends HttpServlet {
       String comment = (String) entity.getProperty(ENTITY_NAME);
       long timestamp = (long) entity.getProperty(ENTITY_NAME_TIMESTAMP);
       String email = (String) entity.getProperty(ENTITY_NAME_EMAILID);
-      UserComment userComment = new UserComment(email,comment);
+      UserComment userComment = new UserComment(email, comment);
       comments.add(userComment);
     }
+
     String json = convertToJsonUsingGson(comments);
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
 
   /**
-   * Converts a List instance into a JSON string using the Gson library. Note: We first added
-   * the Gson library dependency to pom.xml.
-   * @params {List}
+   * Converts a List instance into a JSON string using the Gson library.
+   * @params comments
    */
   private String convertToJsonUsingGson(List<UserComment> comments) {
     Gson gson = new Gson();

@@ -1,4 +1,4 @@
-/**
+ /**
   * This is the main javascript file for the portfolio page. 
   * Contains a showRandomQuotes method, showComments, createListItem, hideComments and
   * checkLoginInfo, enableForm and showLoginButton methods.
@@ -26,13 +26,13 @@
  */
 function showRandomQuotes() {
   const quotes = [
-      "Bring your passion and whole self to work everyday!",
-      "The secret of getting ahead is getting started.",
-      "Do one thing every day that scares you.",
-      "Great things are done by a series of small things brought together.",
-      "Work hard in silence, let your success be the noise.",
-      "The hard days are what make you stronger.",
-      "In the middle of every difficulty lies opportunity",
+    "Bring your passion and whole self to work everyday!",
+    "The secret of getting ahead is getting started.",
+    "Do one thing every day that scares you.",
+    "Great things are done by a series of small things brought together.",
+    "Work hard in silence, let your success be the noise.",
+    "The hard days are what make you stronger.",
+    "In the middle of every difficulty lies opportunity",
   ];
 
   // Pick a random quote.
@@ -62,7 +62,7 @@ function showComments() {
  */
 function createListElement(user) {
   const liElement = document.createElement('li');
-  liElement.innerText = user.emailId+ " : "+ user.comment;
+  liElement.innerText = user.emailId + " : " + user.comment;
   return liElement;
 }
 
@@ -70,8 +70,8 @@ function createListElement(user) {
  * Hides comments from the main page.
  */
 function hideComments() {
-  const list=document.getElementById('comments-container');
-  list.innerText="";
+  const list = document.getElementById('comments-container');
+  list.innerText = "";
 }
 
 /**
@@ -85,11 +85,11 @@ function checkLoginInfo() {
     const logout = document.getElementById('logout-container');
 
     if(userLogin.isLoggedIn) {
-      enableForm(userLogin,form,login,logout);
+      enableForm(userLogin, form, login, logout);
       checkLoginInfo.hidden = true;
     }
     else {
-      showLoginButton(userLogin,form,login,logout);
+      showLoginButton(userLogin, form, login, logout);
       checkLoginInfo.hidden = true;
     }
   });
@@ -99,7 +99,7 @@ function checkLoginInfo() {
  * Enables form on the main page.
  * @params {object, const, const, const} 
  */
-function enableForm(userLogin,form,login,logout) {
+function enableForm(userLogin, form, login, logout) {
   form.hidden = false;
   login.hidden = true;
   logout.hidden = false;
@@ -110,7 +110,7 @@ function enableForm(userLogin,form,login,logout) {
  * Shows login link on the main page.
  * @params {object, const, const, const} 
  */
-function showLoginButton(userLogin,form,login,logout) {
+function showLoginButton(userLogin, form, login, logout) {
   login.hidden = false;
   login.href = userLogin.Url;
   form.hidden = true;
