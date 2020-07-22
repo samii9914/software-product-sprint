@@ -47,7 +47,7 @@ public class DataServlet extends HttpServlet {
     private final String emailId;
     private final String comment;
 
-    UserComment(String emailId, String comment) {
+    public UserComment(String emailId, String comment) {
       this.emailId = emailId;
       this.comment = comment;
     }

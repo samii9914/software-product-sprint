@@ -87,8 +87,7 @@ function checkLoginInfo() {
     if(userLogin.isLoggedIn) {
       enableForm(userLogin, form, login, logout);
       checkLoginInfo.hidden = true;
-    }
-    else {
+    } else {
       showLoginButton(userLogin, form, login, logout);
       checkLoginInfo.hidden = true;
     }

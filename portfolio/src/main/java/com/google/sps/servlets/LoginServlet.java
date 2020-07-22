@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
     private final boolean isLoggedIn;
     private final String Url;
 
-    UserDetails(boolean isloggedin, String Url) {
+    public UserDetails(boolean isloggedin, String Url) {
       this.isLoggedIn = isloggedin;
       this.Url = Url;
     }
