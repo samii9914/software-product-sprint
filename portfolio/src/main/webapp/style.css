@@ -33,15 +33,17 @@
 
 .ButtonGreetings {
     background-color: #6A17E8;
-    color: black;
+    color: white;
     font-size: large;
     height: 50px;
     margin-left: 320px;
+    margin-top: 10px;
     width: 100px;
 }
 
 .ButtonGreetings:hover {
     background-color: white;
+    color: black;
 }
 
 .Profiles {
@@ -57,4 +59,45 @@
 
 .Headings {
     box-shadow: 5px 5px 5px 5px #D6D4D9;
+}
+
+.TextArea {
+    height: 80px;
+    margin: 10px 220px;
+    width: 300px;
+}
+
+.SubmitButton {
+    background-color: black;
+    color: white;
+    margin-left: 450px;
+}
+
+.Button {
+    background-color: #6A17E8;
+    color: white;
+    font-size: large;
+    height: 50px;
+    margin: 10px 10px;
+    width: 100px;
+}
+
+.Paragraph {
+    font-weight: bold;
+    margin: 10px 150px;
+}
+
+.CommentsList {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    font-family: Georgia, 'Times New Roman', Times, serif; 
+    font-size: 20px;
+    line-height: 19px;
+    margin: 20px 20px;
+    padding: 10px 10px;
+}
+
+.LoginLink {
+    margin-left: 340px;
 }
