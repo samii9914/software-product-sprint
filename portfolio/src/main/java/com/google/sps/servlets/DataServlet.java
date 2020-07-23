@@ -80,7 +80,7 @@ public class DataServlet extends HttpServlet {
 
     String comment = request.getParameter(ENTITY_NAME);
     long timestamp = System.currentTimeMillis();
-    if(comment.empty()) {
+    if(comment.length() == 0) {
       response.setContentType("text/html;");
       response.getWriter().println(INVALID_COMMENT_RESPONSE_STRING);
       return;

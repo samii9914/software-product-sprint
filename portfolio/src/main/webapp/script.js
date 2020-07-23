@@ -81,17 +81,17 @@ function hideComments() {
  */
 function checkLoginInfo() {
   fetch('/login').then(response => response.json()).then(userLogin => {
-    const checkLoginInfo = document.getElementById('checklogininfo-container');
-    const form = document.getElementById('form-container');
-    const login = document.getElementById('login-container');
-    const logout = document.getElementById('logout-container');
+    const checkLoginInfoElement = document.getElementById('checklogininfo-container');
+    const formElement = document.getElementById('form-container');
+    const loginElement = document.getElementById('login-container');
+    const logoutElement = document.getElementById('logout-container');
 
     if(userLogin.isLoggedIn) {
-      enableForm(userLogin, form, login, logout);
-      checkLoginInfo.hidden = true;
+      enableForm(userLogin, formElement, loginElement, logoutElement);
+      checkLoginInfoElement.hidden = true;
     } else {
-      showLoginButton(userLogin, form, login, logout);
-      checkLoginInfo.hidden = true;
+      showLoginButton(userLogin, formElement, loginElement, logoutElement);
+      checkLoginInfoElement.hidden = true;
     }
   });
 }
