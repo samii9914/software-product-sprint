@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+
  /** 
   * Represents user details.
   */
@@ -39,7 +40,7 @@ public class LoginServlet extends HttpServlet {
     private final boolean isLoggedIn;
     private final String Url;
 
-    public UserDetails(boolean isloggedin, String Url) {
+    UserDetails(boolean isloggedin, String Url) {
       this.isLoggedIn = isloggedin;
       this.Url = Url;
     }
@@ -75,6 +76,5 @@ public class LoginServlet extends HttpServlet {
     Gson gson = new Gson();
     response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(userstatus));
-
   }
 }

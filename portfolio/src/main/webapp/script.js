@@ -42,6 +42,7 @@ function showRandomQuotes() {
   const quotesContainer = document.getElementById('greeting-container');
   quotesContainer.innerText = quote;
 }
+
 /**
  * Shows comments on the page.
  */
@@ -55,9 +56,10 @@ function showComments() {
     });
   });
 }
+
 /**
  * Creates a list of comments and displays it to main page.
- * @params {string} text
+ * @param {string} user
  * @return {!Element}
  */
 function createListElement(user) {
@@ -96,7 +98,10 @@ function checkLoginInfo() {
 
 /**
  * Enables form on the main page.
- * @params {object, const, const, const} 
+ * @param {!Object} userLogin
+ * @param {!Element} form
+ * @param {!Element} login
+ * @param {!Element} logout
  */
 function enableForm(userLogin, form, login, logout) {
   form.hidden = false;
@@ -107,7 +112,10 @@ function enableForm(userLogin, form, login, logout) {
 
 /**
  * Shows login link on the main page.
- * @params {object, const, const, const} 
+ * @param {!Object} userLogin
+ * @param {!Element} form
+ * @param {!Element} login
+ * @param {!Element} logout 
  */
 function showLoginButton(userLogin, form, login, logout) {
   login.hidden = false;

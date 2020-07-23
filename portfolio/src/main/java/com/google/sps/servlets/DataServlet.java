@@ -47,7 +47,7 @@ public class DataServlet extends HttpServlet {
     private final String emailId;
     private final String comment;
 
-    public UserComment(String emailId, String comment) {
+    UserComment(String emailId, String comment) {
       this.emailId = emailId;
       this.comment = comment;
     }
@@ -123,7 +123,7 @@ public class DataServlet extends HttpServlet {
 
   /**
    * Converts a List instance into a JSON string using the Gson library.
-   * @params comments
+   * @param comments
    */
   private String convertToJsonUsingGson(List<UserComment> comments) {
     Gson gson = new Gson();
